@@ -28,8 +28,21 @@ angular.module('myApp.controllers', [])
         name: party.name
       };
       textMessages.$add(newTextMessasge);
-      // Code here for notified
-      party.notified = 'Yes';
+      party.notified = 'Yes'; // Code here for notified
       $scope.parties.$save(party.$id);
     };
+  }])
+  .controller('AuthController', ['$scope', '$firebaseSimpleLogin', function($scope, $firebaseSimpleLogin) {
+    var authRef = new Firebase('http://waitandeat-art.firebaseio.com/');
+
+    var auth = $firebaseSimpleLogin(authRef);
+
+    $scope.user = {email:'', password:''};
+
+    $scope.register = function() {
+      auth.$createUser($scope.user.email, $scope.user.password).then(function(data) {
+        console.log(data);
+      });//.then(functionSuccess(data), functionFailure(data))
+    };
+
   }]);
