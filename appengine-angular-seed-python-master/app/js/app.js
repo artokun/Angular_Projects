@@ -23,6 +23,10 @@ config(['$routeProvider', function($routeProvider) {
     templateUrl:'partials/register.html',
     controller:'AuthController'
   });
+  $routeProvider.when('/login', {
+    templateUrl:'partials/login.html',
+    controller: 'AuthController'
+  });
   $routeProvider.otherwise({
     redirectTo: '/'
   });

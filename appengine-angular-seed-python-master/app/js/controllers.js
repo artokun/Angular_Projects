@@ -42,7 +42,17 @@ angular.module('myApp.controllers', [])
     $scope.register = function() {
       auth.$createUser($scope.user.email, $scope.user.password).then(function(data) {
         console.log(data);
+        auth.$login('password', $scope.user);
       });//.then(functionSuccess(data), functionFailure(data))
     };
 
+    $scope.login = function() {
+      auth.$login('password', $scope.user).then(function(data) {
+        console.log(data);
+      });
+    };
+
+    $scope.logout = function() {
+      auth.$logout();
+    };
   }]);
