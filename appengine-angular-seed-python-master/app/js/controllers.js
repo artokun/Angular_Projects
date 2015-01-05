@@ -6,8 +6,8 @@ angular.module('myApp.controllers', [])
   .controller('LandingPageController', [function() {
 
   }])
-  .controller('waitlistController', ['$scope', '$firebase', function($scope, $firebase) {
-    var partiesRef = new Firebase('https://waitandeat-art.firebaseio.com/parties');
+  .controller('waitlistController', ['$scope', '$firebase', 'FIREBASE_URL', function($scope, $firebase, FIREBASE_URL) {
+    var partiesRef = new Firebase(FIREBASE_URL + 'parties');
 
     $scope.parties = $firebase(partiesRef);
 
@@ -20,7 +20,7 @@ angular.module('myApp.controllers', [])
 
     //function to send a text message to a party
     $scope.sendTextMessage = function(party) {
-      var textMessageRef = new Firebase('http://waitandeat-art.firebaseio.com/textMessages');
+      var textMessageRef = new Firebase(FIREBASE_URL + 'textMessages');
       var textMessages = $firebase(textMessageRef);
       var newTextMessasge = {
         phone: party.phone,
@@ -32,8 +32,8 @@ angular.module('myApp.controllers', [])
       $scope.parties.$save(party.$id);
     };
   }])
-  .controller('AuthController', ['$scope', '$firebaseSimpleLogin', '$location', function($scope, $firebaseSimpleLogin, $location) {
-    var authRef = new Firebase('http://waitandeat-art.firebaseio.com/');
+  .controller('AuthController', ['$scope', '$firebaseSimpleLogin', '$location','FIREBASE_URL', function($scope, $firebaseSimpleLogin, $location, FIREBASE_URL) {
+    var authRef = new Firebase(FIREBASE_URL);
 
     var auth = $firebaseSimpleLogin(authRef);
 
