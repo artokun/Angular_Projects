@@ -42,17 +42,23 @@ angular.module('myApp.controllers', [])
     $scope.register = function() {
       auth.$createUser($scope.user.email, $scope.user.password).then(function(data) {
         console.log(data);
-        auth.$login('password', $scope.user);
+        $scope.login();
+        //TODO: show error when registration fails
+        //TODO: make password criteria with jQuery
       });//.then(functionSuccess(data), functionFailure(data))
     };
 
     $scope.login = function() {
       auth.$login('password', $scope.user).then(function(data) {
         console.log(data);
+        //Redirect users to the waitlist page /waitlist
+        $location.path('/waitlist');
       });
     };
 
     $scope.logout = function() {
       auth.$logout();
+      //Redirect users to the landing page /
+      $location.path('/');
     };
   }]);
