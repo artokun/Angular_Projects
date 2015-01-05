@@ -32,7 +32,7 @@ angular.module('myApp.controllers', [])
       $scope.parties.$save(party.$id);
     };
   }])
-  .controller('AuthController', ['$scope', '$firebaseSimpleLogin', function($scope, $firebaseSimpleLogin) {
+  .controller('AuthController', ['$scope', '$firebaseSimpleLogin', '$location', function($scope, $firebaseSimpleLogin, $location) {
     var authRef = new Firebase('http://waitandeat-art.firebaseio.com/');
 
     var auth = $firebaseSimpleLogin(authRef);
