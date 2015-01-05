@@ -6,7 +6,7 @@ angular.module('myApp.controllers', [])
   .controller('LandingPageController', [function() {
 
   }])
-  .controller('waitlistController', ['$scope', 'partyService', function($scope, partyService) {
+  .controller('waitlistController', ['$scope', 'partyService', 'textMessageService', function($scope, partyService, textMessageService) {
     //Bind Firebase parties to $scope.
     $scope.parties = partyService.parties;
 
@@ -22,16 +22,7 @@ angular.module('myApp.controllers', [])
 
     //function to send a text message to a party
     $scope.sendTextMessage = function(party) {
-      var textMessageRef = new Firebase(FIREBASE_URL + 'textMessages');
-      var textMessages = $firebase(textMessageRef);
-      var newTextMessasge = {
-        phone: party.phone,
-        size: party.size,
-        name: party.name
-      };
-      textMessages.$add(newTextMessasge);
-      party.notified = 'Yes'; // Code here for notified
-      $scope.parties.$save(party.$id);
+      textMessageService.sendTextMessage(party);
     };
   }])
   .controller('AuthController', ['$scope', 'authService', function($scope, authService) {
