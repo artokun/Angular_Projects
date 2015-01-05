@@ -6,16 +6,18 @@ angular.module('myApp.controllers', [])
   .controller('LandingPageController', [function() {
 
   }])
-  .controller('waitlistController', ['$scope', '$firebase', 'FIREBASE_URL', function($scope, $firebase, FIREBASE_URL) {
-    var partiesRef = new Firebase(FIREBASE_URL + 'parties');
+  .controller('waitlistController', ['$scope', 'partyService', function($scope, partyService) {
+    //Bind Firebase parties to $scope.
+    $scope.parties = partyService.parties;
 
-    $scope.parties = $firebase(partiesRef);
-
+    //Object to store data from the waitlist form
     $scope.newParty = {name:'', phone:'', size:'', done: false, notified:'No'};
 
+    //Function to save a new party to the waitlist.
     $scope.saveParty = function() {
-      $scope.parties.$add($scope.newParty);
+      partyService.saveParty($scope.newParty);
       $scope.newParty = {name:'', phone:'', size:'', done: false, notified:'No'};
+
     };
 
     //function to send a text message to a party
