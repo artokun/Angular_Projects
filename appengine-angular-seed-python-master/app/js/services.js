@@ -7,23 +7,27 @@
 // In this case it is a simple value service.
 angular.module('myApp.services', [])
   .value('FIREBASE_URL', 'https://waitandeat-art.firebaseio.com/')
-  .factory('partyService', function($firebase, FIREBASE_URL){
-      //Connect $scope.parties to live Firebase data
-      var partiesRef = new Firebase(FIREBASE_URL + 'parties');
-      var parties = $firebase(partiesRef);
+  .factory('dataService', function($firebase, FIREBASE_URL) {
+    var dataRef = new Firebase(FIREBASE_URL);
+    var fireData = $firebase(dataRef);
 
-      var partyServiceObject = {
-        parties: parties,
-        saveParty: function(party){
-          parties.$add(party);
-        }
-      };
+    return fireData;
+  })
+  .factory('partyService', function(dataService){
+      //Connect $scope.parties to live Firebase data
+    var parties = dataService.$child('parties');
+    
+    var partyServiceObject = {
+      parties: parties,
+      saveParty: function(party){
+        parties.$add(party);
+      }
+    };
 
       return partyServiceObject;
   })
-  .factory('textMessageService', function($firebase, FIREBASE_URL, partyService) {
-    var textMessageRef = new Firebase(FIREBASE_URL + 'textMessages');
-    var textMessages = $firebase(textMessageRef);
+  .factory('textMessageService', function(dataService, partyService) {
+    var textMessages = dataService.$child('textMessages');
 
     var textMessageServiceObject = {
       sendTextMessage: function(party){
@@ -69,7 +73,7 @@ angular.module('myApp.services', [])
     };
 
     $rootScope.$on("$firebaseSimpleLogin:login", function(e, user) {
-      console.log("User " + user.id + "successfully logged in!");
+      console.log("User " + user.id + " successfully logged in!");
       //Save currentUser on our rootScope.
       $rootScope.currentUser = user;
     });
